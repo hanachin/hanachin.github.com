@@ -23,6 +23,15 @@ window.onload = function() {
 		miku.y = (game.height - miku.height) / 2;
 		miku.image = game.assets['miku.png'];
 		miku.frame = 1;
+		miku.addEventListener('enterframe', function (e) {
+			miku.frame = Math.floor(game.frame / 2) % 3;
+		});
+		
+		game.rootScene.addEventListener('touchmove', function (e) {
+			var deg = Math.atan2(e.x - miku.x, e.y - miku.y) * 180 / Math.PI;
+			miku.rotation = -deg;
+		});
+		
 		game.rootScene.addChild(miku);
     };
     game.start();
