@@ -14,6 +14,20 @@ enchant();
 count = 0;
 
 window.onload = function() {
+	function radFromMiku(e) {
+		return Math.atan2(game.height / 2 - e.y, e.x - game.width / 2);
+	}
+	
+	function degFromMiku(e) {
+		var rad = radFromMiku(e);
+		var deg = rad * 180 / Math.PI;
+		if (deg < 0) {
+			return -deg - 90;
+		} else {
+			return 360 - deg - 90;
+		}
+	}
+	
     game = new Game(320, 320);
     game.fps = 24;
     game.preload('font.png', 'miku.png');
@@ -28,14 +42,8 @@ window.onload = function() {
 		});
 		
 		game.rootScene.addEventListener('touchmove', function (e) {
-			var rad = Math.atan2(game.height / 2 - e.y, e.x - game.width / 2);
-			var deg = rad * 180 / Math.PI;
-			if (deg < 0) {
-				miku.rotation = -deg - 90;
-			} else {
-				miku.rotation = 360 - deg - 90;
-			}
-			console.log(deg)
+			var deg = degFromMiku(e);
+			miku.rotation = deg;
 		});
 		
 		game.rootScene.addChild(miku);
