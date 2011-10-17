@@ -28,9 +28,9 @@ window.onload = function() {
 		});
 		
 		game.rootScene.addEventListener('touchmove', function (e) {
-			var rad = Math.atan2(e.x - miku.x, e.y - miku.y);
+			var rad = Math.atan2(game.height / 2 - e.y, e.x - game.width / 2);
 			var deg = rad * 180 / Math.PI;
-			miku.rotation = -deg;
+			miku.rotation = deg;
 		});
 		
 		game.rootScene.addChild(miku);
