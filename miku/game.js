@@ -16,7 +16,7 @@ count = 0;
 window.onload = function() {
     var game = new Game(320, 320);
     game.fps = 24;
-    game.preload('font.png', 'miku.gif');
+    game.preload('font.png', 'miku.png');
     game.onload = function() {
     };
     game.start();
