@@ -30,7 +30,7 @@ window.onload = function() {
 	
     game = new Game(320, 320);
     game.fps = 24;
-    game.preload('font.png', 'miku.png', 'onpu.gif');
+    game.preload('font.png', 'miku.png', 'onpu.gif', 'chara1.gif');
     game.onload = function() {
 		var miku = new Sprite(20, 28);
 		miku.x = (game.width - miku.width) / 2;
@@ -73,6 +73,28 @@ window.onload = function() {
 		});
 		
 		game.rootScene.addChild(miku);
+		
+		game.rootScene.addEventListener('enterframe', function (e) {
+			if (game.frame % 192) {
+				var ota = new Sprite(32, 32);
+				var direction = rand(2) ? 1 : -1;
+				ota.x = direction == 1 ? 0 : game.width;
+				ota.y = rand(2) ? rand(96) : rand(96) + 224;
+				ota.image = game.assets['chara1.gif'];
+				ota.scaleX *= direction;
+				
+				var speed = rand(10) + 5;
+				ota.addEventListener('enterframe', function (e) {
+					ota.x = ota.x + direction * speed;
+					ota.frame = Math.floor(game.frame / 2) % 3;
+					if (ota.x < 0 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
+						game.rootScene.removeChild(ota);
+					}
+				});
+				
+				game.rootScene.addChild(ota);
+			}
+		});
     };
     game.start();
 };
