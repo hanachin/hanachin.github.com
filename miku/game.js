@@ -14,11 +14,16 @@ enchant();
 count = 0;
 
 window.onload = function() {
-    var game = new Game(320, 320);
+    game = new Game(320, 320);
     game.fps = 24;
     game.preload('font.png', 'miku.png');
     game.onload = function() {
+		var miku = new Sprite(20, 28);
+		miku.x = (game.width - miku.width) / 2;
+		miku.y = (game.height - miku.height) / 2;
+		miku.image = game.assets['miku.png'];
+		miku.frame = 1;
+		game.rootScene.addChild(miku);
     };
     game.start();
-	window['game'] = enchant.Game.instance;
 };
