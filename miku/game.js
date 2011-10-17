@@ -30,7 +30,12 @@ window.onload = function() {
 		game.rootScene.addEventListener('touchmove', function (e) {
 			var rad = Math.atan2(game.height / 2 - e.y, e.x - game.width / 2);
 			var deg = rad * 180 / Math.PI;
-			miku.rotation = deg;
+			if (deg < 0) {
+				miku.rotation = -deg - 90;
+			} else {
+				miku.rotation = 360 - deg - 90;
+			}
+			console.log(deg)
 		});
 		
 		game.rootScene.addChild(miku);
