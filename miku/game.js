@@ -5,6 +5,14 @@ var otas = [];
 window.onload = function() {
 	var GAME_WIDTH = 320;
 	var GAME_HEIGHT = 320;
+	
+	var OTA_INTERVAL = 12;
+	var OTA_MAX = 10;
+	
+	var ota_speed_f = function () {
+		return rand(10) + 5;	// 5 ~ 15
+	}
+	
 	var miku_center = {
 		x:GAME_WIDTH / 2,
 		y: 172,
@@ -88,7 +96,7 @@ window.onload = function() {
 		game.rootScene.addChild(miku);
 		
 		game.rootScene.addEventListener('enterframe', function (e) {
-			if (game.frame % 192) {
+			if (game.frame % OTA_INTERVAL == 0) {
 				var ota = new Sprite(32, 32);
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
@@ -96,9 +104,9 @@ window.onload = function() {
 				ota.image = game.assets['chara1.gif'];
 				ota.scaleX *= direction;
 				
-				var speed = rand(10) + 5;
+				var speed_f = ota_speed_f;
 				ota.addEventListener('enterframe', function (e) {
-					ota.x = ota.x + direction * speed;
+					ota.x = ota.x + direction * speed_f();
 					ota.frame = Math.floor(game.frame / 2) % 3;
 					if (ota.x < -32 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
 						game.rootScene.removeChild(ota);
@@ -110,7 +118,7 @@ window.onload = function() {
 					}
 				});
 				
-				if (otas.length <= 10) {
+				if (otas.length <= OTA_MAX) {
 					game.rootScene.addChild(ota);
 					otas.push(ota);
 				}
