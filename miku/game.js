@@ -12,6 +12,7 @@ Array.prototype.shuffle = function() {
 enchant();
 
 count = 0;
+var otas = [];
 
 window.onload = function() {
 	function radFromMiku(e) {
@@ -62,6 +63,13 @@ window.onload = function() {
 				if (onpu.x < 0 || game.width < onpu.x || onpu.y < 0 || game.height < onpu.y) {
 					game.rootScene.removeChild(onpu);
 				}
+				otas = otas.filter(function (x) {
+					if (onpu.intersect(x)) {
+						game.rootScene.removeChild(x);
+						return false;
+					}
+					return true;
+				});
 			});
 			
 			game.rootScene.addChild(onpu);
@@ -89,10 +97,18 @@ window.onload = function() {
 					ota.frame = Math.floor(game.frame / 2) % 3;
 					if (ota.x < 0 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
 						game.rootScene.removeChild(ota);
+						var index = otas.indexOf(ota);
+						if (index != -1) {
+							otas.splice(index, 1);
+							console.log(otas.length);
+						}
 					}
 				});
 				
-				game.rootScene.addChild(ota);
+				if (otas.length <= 10) {
+					game.rootScene.addChild(ota);
+					otas.push(ota);
+				}
 			}
 		});
     };
