@@ -31,8 +31,12 @@ window.onload = function() {
 	
     game = new Game(320, 320);
     game.fps = 24;
-    game.preload('font.png', 'miku.png', 'onpu.gif', 'chara1.gif');
+    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'chara1.gif');
     game.onload = function() {
+    	var bg = new Sprite(320, 320);
+    	bg.image = game.assets['back.png'];
+    	game.rootScene.addChild(bg);
+    	
 		var miku = new Sprite(20, 28);
 		miku.x = (game.width - miku.width) / 2;
 		miku.y = (game.height - miku.height) / 2;
