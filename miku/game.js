@@ -11,7 +11,6 @@ Array.prototype.shuffle = function() {
 
 enchant();
 
-count = 0;
 var otas = [];
 
 window.onload = function() {
