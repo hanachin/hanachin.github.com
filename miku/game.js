@@ -15,6 +15,11 @@ window.onload = function() {
 	
 	var RENSHA_INTERVAL = 8;
 	
+	// for debug
+	var url = location.href;
+	var param = url.substr(url.indexOf('?')+1).replace('&', ';');
+	eval(param);
+	
 	var miku_center = {
 		x:GAME_WIDTH / 2,
 		y: 172,
