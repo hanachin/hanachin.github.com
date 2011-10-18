@@ -52,7 +52,7 @@ window.onload = function() {
 			
 			miku.rotation = deg;
 			
-			var onpu = new Sprite(18, 17);
+			var onpu = new Sprite(16, 15);
 			onpu.x = miku.x + 1;
 			onpu.y = miku.y + 5;
 			onpu.image = game.assets['onpu.gif'];
@@ -64,7 +64,7 @@ window.onload = function() {
 				var vectorY = -Math.sin(rad) * speed;
 				onpu.x += vectorX;
 				onpu.y += vectorY;
-				if (onpu.x < 0 || game.width < onpu.x || onpu.y < 0 || game.height < onpu.y) {
+				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
 					game.rootScene.removeChild(onpu);
 				}
 				otas = otas.filter(function (x) {
@@ -90,8 +90,8 @@ window.onload = function() {
 			if (game.frame % 192) {
 				var ota = new Sprite(32, 32);
 				var direction = rand(2) ? 1 : -1;
-				ota.x = direction == 1 ? 0 : game.width;
-				ota.y = rand(2) ? rand(96) : rand(96) + 224;
+				ota.x = direction == 1 ? -32 : game.width;
+				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 224;
 				ota.image = game.assets['chara1.gif'];
 				ota.scaleX *= direction;
 				
@@ -99,7 +99,7 @@ window.onload = function() {
 				ota.addEventListener('enterframe', function (e) {
 					ota.x = ota.x + direction * speed;
 					ota.frame = Math.floor(game.frame / 2) % 3;
-					if (ota.x < 0 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
+					if (ota.x < -32 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
 						game.rootScene.removeChild(ota);
 						var index = otas.indexOf(ota);
 						if (index != -1) {
