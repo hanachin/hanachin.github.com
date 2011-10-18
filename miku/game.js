@@ -17,7 +17,7 @@ window.onload = function() {
 	
 	// for debug
 	var url = location.href;
-	var param = url.substr(url.indexOf('?')+1).replace('&', ';');
+	var param = url.substr(url.indexOf('?')+1).replace(/&/g, ';');
 	eval(param);
 	
 	var miku_center = {
