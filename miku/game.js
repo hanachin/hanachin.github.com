@@ -15,8 +15,15 @@ count = 0;
 var otas = [];
 
 window.onload = function() {
+	var GAME_WIDTH = 320;
+	var GAME_HEIGHT = 320;
+	var miku_center = {
+		x:GAME_WIDTH / 2,
+		y: 172,
+	};
+	
 	function radFromMiku(e) {
-		return Math.atan2(game.height / 2 - e.y, e.x - game.width / 2);
+		return Math.atan2(miku_center.y - e.y, e.x - miku_center.x);
 	}
 	
 	function degFromMiku(e) {
@@ -29,7 +36,7 @@ window.onload = function() {
 		}
 	}
 	
-    game = new Game(320, 320);
+    game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
     game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'chara1.gif');
     game.onload = function() {
@@ -38,8 +45,8 @@ window.onload = function() {
     	game.rootScene.addChild(bg);
     	
 		var miku = new Sprite(20, 28);
-		miku.x = (game.width - miku.width) / 2;
-		miku.y = (game.height - miku.height) / 2;
+		miku.x = miku_center.x - miku.width / 2
+		miku.y = miku_center.y - miku.height / 2;
 		miku.image = game.assets['miku.png'];
 		miku.frame = 1;
 		miku.addEventListener('enterframe', function (e) {
@@ -91,7 +98,7 @@ window.onload = function() {
 				var ota = new Sprite(32, 32);
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
-				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 224;
+				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
 				ota.image = game.assets['chara1.gif'];
 				ota.scaleX *= direction;
 				
