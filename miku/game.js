@@ -41,7 +41,7 @@ window.onload = function() {
 	
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
-    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'chara1.gif');
+    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'chara1.gif', 'kyun.wav');
     game.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
@@ -83,6 +83,7 @@ window.onload = function() {
 					if (onpu.intersect(x)) {
 						del_flag = true;
 						game.rootScene.removeChild(x);
+						game.assets['kyun.wav'].play();
 						return false;
 					}
 					return true;
