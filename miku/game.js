@@ -7,13 +7,13 @@ window.onload = function() {
 	var GAME_WIDTH = 320;
 	var GAME_HEIGHT = 320;
 	
-	var OTA_INTERVAL = 12;
-	var OTA_MAX = 10;
+	var OTA_INTERVAL = 5;
+	var OTA_MAX = 5;
 	var ota_speed_f = function () {
 		return rand(10) + 5;	// 5 ~ 15
 	}
 	
-	var RENSHA_INTERVAL = 8;
+	var RENSHA_INTERVAL = 5;
 	
 	// for debug
 	var url = location.href;
