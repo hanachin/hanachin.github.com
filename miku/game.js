@@ -74,13 +74,19 @@ window.onload = function() {
 				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
 					game.rootScene.removeChild(onpu);
 				}
+				
+				var del_flag = false;
 				otas = otas.filter(function (x) {
 					if (onpu.intersect(x)) {
+						del_flag = true;
 						game.rootScene.removeChild(x);
 						return false;
 					}
 					return true;
 				});
+				if (del_flag) {
+					game.rootScene.removeChild(onpu);
+				}
 			});
 			
 			game.rootScene.addChild(onpu);
