@@ -1,6 +1,7 @@
 enchant();
 
 var otas = [];
+var rensha_last = 0
 
 window.onload = function() {
 	var GAME_WIDTH = 320;
@@ -8,10 +9,11 @@ window.onload = function() {
 	
 	var OTA_INTERVAL = 12;
 	var OTA_MAX = 10;
-	
 	var ota_speed_f = function () {
 		return rand(10) + 5;	// 5 ~ 15
 	}
+	
+	var RENSHA_INTERVAL = 8;
 	
 	var miku_center = {
 		x:GAME_WIDTH / 2,
@@ -85,7 +87,10 @@ window.onload = function() {
 				}
 			});
 			
-			game.rootScene.addChild(onpu);
+			if (rensha_last + RENSHA_INTERVAL < game.frame) {
+				rensha_last = game.frame;
+				game.rootScene.addChild(onpu);
+			}
 		});
 		
 		game.rootScene.addEventListener('touchmove', function (e) {
