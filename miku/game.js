@@ -43,7 +43,7 @@ window.onload = function() {
 	
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
-    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'chara1.gif', 'kyun.wav');
+    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'ota.png', 'kyun.wav');
     game.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
@@ -110,11 +110,11 @@ window.onload = function() {
 		
 		game.rootScene.addEventListener('enterframe', function (e) {
 			if (game.frame % OTA_INTERVAL == 0) {
-				var ota = new Sprite(32, 32);
+				var ota = new ExSprite(26, 39);
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
-				ota.image = game.assets['chara1.gif'];
+				ota.image = game.assets['ota.png'];
 				ota.scaleX *= direction;
 				
 				var speed_f = ota_speed_f;
