@@ -35,6 +35,8 @@ window.onload = function() {
 	
 	var RENSHA_INTERVAL = 5;
 	
+	var TIME_LIMIT = 40;
+	
 	// for debug
 	var url = location.href;
 	if (url.indexOf('?') != -1) {
@@ -76,6 +78,10 @@ window.onload = function() {
     	
     	var scoreLabel = new ScoreLabel(0, 0);
     	game.rootScene.addChild(scoreLabel);
+    	
+    	var timeLabel = new TimeLabel(0, 16, 'countdown');
+    	timeLabel.time = TIME_LIMIT;
+    	game.rootScene.addChild(timeLabel);
     	
 		var miku = new Sprite(20, 28);
 		miku.x = miku_center.x - miku.width / 2
@@ -148,6 +154,10 @@ window.onload = function() {
 		game.rootScene.addChild(miku);
 		
 		game.rootScene.addEventListener('enterframe', function (e) {
+			if (timeLabel.time <= 0) {
+				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
+			}
+			
 			if (game.frame % OTA_INTERVAL == 0) {
 				var ota = new ExSprite(26, 39);
 				var direction = rand(2) ? 1 : -1;
