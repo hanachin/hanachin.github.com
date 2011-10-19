@@ -16,6 +16,9 @@ window.onload = function() {
 	var ota_speed_f = function () {
 		return rand(OTA_RAND) + OTA_SAITEI;	// 1 ~ 10
 	}
+	var rate_ota_speed_f = function () {
+		return 7;
+	}
 	
 	var RENSHA_INTERVAL = 5;
 	
@@ -52,7 +55,7 @@ window.onload = function() {
     game.preload(
     		'kyun.mp3', 'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
-    		'ota.png', 'effect0.gif',
+    		'ota.png', 'ota2.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png'
     );
     game.onload = function() {
@@ -157,10 +160,18 @@ window.onload = function() {
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
-				ota.image = game.assets['ota.png'];
-				ota.scaleX *= direction;
 				
-				var speed_f = ota_speed_f;
+				if (rand(15) == 10) {
+					ota.image = game.assets['ota2.png'];
+					var speed_f = rate_ota_speed_f;
+					ota.ota_type = 'rate';
+				} else {
+					ota.image = game.assets['ota.png'];
+					var speed_f = ota_speed_f;
+					ota.ota_type = 'normal';
+				}
+				
+				ota.scaleX *= direction;
 				ota.move = function (e) {
 					ota.x = ota.x + direction * speed_f();
 					ota.frame = Math.floor(game.frame / 3) % 3;
