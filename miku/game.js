@@ -171,7 +171,7 @@ window.onload = function() {
 			}
 			
 			if (game.frame % OTA_INTERVAL == 0) {
-				var ota = new ExSprite(26, 39);
+				var ota = new ExSprite(28, 39);
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
