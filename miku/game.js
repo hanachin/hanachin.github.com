@@ -42,7 +42,7 @@ window.onload = function() {
 	
 	var miku_center = {
 		x:GAME_WIDTH / 2,
-		y: 172,
+		y: 180,
 	};
 	
 	function radFromMiku(e) {
