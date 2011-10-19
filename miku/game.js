@@ -61,7 +61,12 @@ window.onload = function() {
 	
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
-    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'ota.png', 'kyun.wav', 'effect0.gif');
+    game.preload(
+    		'kyun.wav', 'font.png', 'back.png',
+    		'miku.png', 'onpu.gif',
+    		'ota.png', 'effect0.gif',
+    		'yanyo.png', 'youchu.png'
+    );
     game.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
