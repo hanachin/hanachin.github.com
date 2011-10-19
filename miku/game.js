@@ -105,7 +105,7 @@ window.onload = function() {
 						scoreLabel.score = scoreLabel.score + 1;
 						
 						if (++combo >= 2) {
-							scoreLabel.score = 1.25 * combo;
+							scoreLabel.score = scoreLabel.score + 1.25 * combo;
 							var comboText = new ComboText(ota.x - 6, ota.y - 16);
 							comboText.text = combo + ":;<";
 							comboText.fadeOut(24);
