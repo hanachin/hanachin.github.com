@@ -67,6 +67,9 @@ window.onload = function() {
     	bg.image = game.assets['back.png'];
     	game.rootScene.addChild(bg);
     	
+    	var scoreLabel = new ScoreLabel(0, 0);
+    	game.rootScene.addChild(scoreLabel);
+    	
 		var miku = new Sprite(20, 28);
 		miku.x = miku_center.x - miku.width / 2
 		miku.y = miku_center.y - miku.height / 2;
@@ -101,6 +104,8 @@ window.onload = function() {
 				var del_flag = false;
 				otas = otas.filter(function (ota) {
 					if (onpu.intersect(ota)) {
+						scoreLabel.score = scoreLabel.score + 1;
+						
 						del_flag = true;
 						ota.removeEventListener('enterframe', ota.move);
 						ota.fadeOut(12);
