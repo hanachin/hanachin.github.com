@@ -3,6 +3,24 @@ enchant();
 var otas = [];
 var rensha_last = 0
 
+KyunSprite = enchant.Class.create(enchant.util.ExSprite, {
+	initialize: function(width, height) {
+		ExSprite.call(this, arguments[0], arguments[1]);
+	},
+	blast: function(frame) {
+		if(this._mode == 'normal'){
+			this._mode = 'blast';
+			this.scale(this.width/17);
+			this.image = game.assets['effect0.gif'];
+			this.width = 17;
+			this.height = 16;
+			this.frame = 16;
+			this._blastf = 0;
+			this._blast = (1/frame) || (1/10);
+		}
+	},
+});
+
 window.onload = function() {
 	var GAME_WIDTH = 320;
 	var GAME_HEIGHT = 320;
@@ -10,7 +28,7 @@ window.onload = function() {
 	var OTA_INTERVAL = 5;
 	var OTA_MAX = 5;
 	var ota_speed_f = function () {
-		return rand(10) + 5;	// 5 ~ 15
+		return rand(5) + 5;	// 5 ~ 10
 	}
 	
 	var RENSHA_INTERVAL = 5;
@@ -43,7 +61,7 @@ window.onload = function() {
 	
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
-    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'ota.png', 'kyun.wav');
+    game.preload('font.png', 'back.png', 'miku.png', 'onpu.gif', 'ota.png', 'kyun.wav', 'effect0.gif');
     game.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
@@ -81,11 +99,19 @@ window.onload = function() {
 				}
 				
 				var del_flag = false;
-				otas = otas.filter(function (x) {
-					if (onpu.intersect(x)) {
+				otas = otas.filter(function (ota) {
+					if (onpu.intersect(ota)) {
 						del_flag = true;
-						game.rootScene.removeChild(x);
+						ota.removeEventListener('enterframe', ota.move);
+						ota.fadeOut(12);
 						game.assets['kyun.wav'].play();
+						
+						var kyun = new KyunSprite(16, 16);
+		        		kyun.x = ota.x-3;
+		        		kyun.y = ota.y-10;
+		        		kyun.blast(6);
+		        		game.rootScene.addChild(kyun);
+		        		
 						return false;
 					}
 					return true;
@@ -118,9 +144,9 @@ window.onload = function() {
 				ota.scaleX *= direction;
 				
 				var speed_f = ota_speed_f;
-				ota.addEventListener('enterframe', function (e) {
+				ota.move = function (e) {
 					ota.x = ota.x + direction * speed_f();
-					ota.frame = Math.floor(game.frame / 2) % 3;
+					ota.frame = Math.floor(game.frame / 3) % 3;
 					if (ota.x < -32 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
 						game.rootScene.removeChild(ota);
 						var index = otas.indexOf(ota);
@@ -129,7 +155,8 @@ window.onload = function() {
 							console.log(otas.length);
 						}
 					}
-				});
+				};
+				ota.addEventListener('enterframe', ota.move);
 				
 				if (otas.length <= OTA_MAX) {
 					game.rootScene.addChild(ota);
