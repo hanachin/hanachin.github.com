@@ -76,10 +76,10 @@ window.onload = function() {
     	bg.image = game.assets['back.png'];
     	game.rootScene.addChild(bg);
     	
-    	var scoreLabel = new ScoreLabel(0, 0);
+    	var scoreLabel = new ScoreLabel(72, 0);
     	game.rootScene.addChild(scoreLabel);
     	
-    	var timeLabel = new TimeLabel(0, 16, 'countdown');
+    	var timeLabel = new TimeLabel(88, 16, 'countdown');
     	timeLabel.time = TIME_LIMIT;
     	game.rootScene.addChild(timeLabel);
     	
