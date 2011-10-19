@@ -132,6 +132,7 @@ window.onload = function() {
 						
 						del_flag = true;
 						ota.removeEventListener('enterframe', ota.move);
+						ota.frame = 3;
 						ota.fadeOut(12);
 						var kyunSound = game.assets['kyun.mp3'].clone();
 						kyunSound.play();
