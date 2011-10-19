@@ -21,10 +21,98 @@ enchant.util.Wallpaper = enchant.Class.create(enchant.Sprite, { // Spriteを継�
 	}
 });
 
+
+enchant.util.ExSprite = enchant.Class.create(enchant.Sprite, {
+	initialize: function(width, height) {
+		Sprite.call(this, arguments[0], arguments[1]);
+		this._mode = 'normal';	// 状態
+		this._fade = 0;			// フェードイン・フェードアウトを制御
+		this._blastf = 0;		// 爆発中の状態を保持する変数 (%) 
+		this._blast = 0;		// 爆発の速度 (%) 
+		this.addEventListener('enterframe', function(){
+			switch(this._mode){
+			case 'normal':
+				break;
+			case 'blast':
+				this._blastf += this._blast;
+				if(this._blastf > 1){
+					this.scene.removeChild(this);
+					delete this;
+				}
+				this.frame = (this._blastf*4)|0;
+				break;
+			case 'fadein':
+				this.opacity += this._fade;
+				if(this.opacity > 1){
+					this.opacity = 1;
+					this._fade = 0;
+					this._mode = 'normal';
+				}
+				break;
+			case 'fadeout':
+				this.opacity -= this._fade;
+				if(this.opacity < 0){
+					this.opacity = 0;
+					this._fade = 0;
+					this._mode = 'normal';
+				}
+				break;
+			default:
+				break;
+			}
+		});
+	},
+	show: function() {
+		game.rootScene.addChild(this);
+	},
+	hide: function() {
+		game.rootScene.removeChild(this);
+	},
+	blast: function(frame) {
+		if(this._mode == 'normal'){
+			this._mode = 'blast';
+			this.scale(this.width/16);
+			this.image = game.assets['effect0.gif'];
+			this.width = 16;
+			this.height = 16;
+			this.frame = 16;
+			this._blastf = 0;
+			this._blast = (1/frame) || (1/10);
+		}
+	},
+	fadeOut: function(frame) {
+		this._mode = 'fadeout';
+		this._fade = (1/frame) || (1/10);
+	},
+	fadeIn: function(frame) {
+		this._mode = 'fadein';
+		this._fade = (1/frame) || (1/10);
+	},
+	intersect: function(target) {
+		var mygapx = (1 - this.scaleX)*this.width;
+		var mygapy = (1 - this.scaleY)*this.height;
+		var tagapx = (1 - target.scaleX)*target.width;
+		var tagapy = (1 - target.scaleY)*target.height;
+		
+		var myright = this.x + this.width - mygapx;
+		var taright = target.x + target.width - mygapy;
+		var mybottom = this.y + this.height - tagapx;
+		var tabottom = target.y + target.height - tagapy;
+		
+		if (this.x + mygapx < taright && myright > target.x + tagapx &&
+			this.y + mygapy < tabottom && mybottom > target.y + tagapy) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+});
+
+
 // 画像でフォントを再現したラベル (参考: draw.text.js)
-enchant.util.MutableText = enchant.Class.create(enchant.Sprite, {
+enchant.util.MutableText = enchant.Class.create(enchant.util.ExSprite, {
 	initialize: function(posX, posY, width, height) {
-		enchant.Sprite.call(this, 0, 0);
+		enchant.util.ExSprite.call(this, 0, 0);
 		var game = enchant.Game.instance;
 		var width = (arguments[2] || game.width);
 		var height = (arguments[3] || game.height);
@@ -252,92 +340,6 @@ enchant.Bar = enchant.Class.create(enchant.Sprite, {
 		},
 		set: function(val){
 			this._maxvalue = val;
-		}
-	}
-});
-
-enchant.util.ExSprite = enchant.Class.create(enchant.Sprite, {
-	initialize: function(width, height) {
-		Sprite.call(this, arguments[0], arguments[1]);
-		this._mode = 'normal';	// 状態
-		this._fade = 0;			// フェードイン・フェードアウトを制御
-		this._blastf = 0;		// 爆発中の状態を保持する変数 (%) 
-		this._blast = 0;		// 爆発の速度 (%) 
-		this.addEventListener('enterframe', function(){
-			switch(this._mode){
-			case 'normal':
-				break;
-			case 'blast':
-				this._blastf += this._blast;
-				if(this._blastf > 1){
-					this.scene.removeChild(this);
-					delete this;
-				}
-				this.frame = (this._blastf*4)|0;
-				break;
-			case 'fadein':
-				this.opacity += this._fade;
-				if(this.opacity > 1){
-					this.opacity = 1;
-					this._fade = 0;
-					this._mode = 'normal';
-				}
-				break;
-			case 'fadeout':
-				this.opacity -= this._fade;
-				if(this.opacity < 0){
-					this.opacity = 0;
-					this._fade = 0;
-					this._mode = 'normal';
-				}
-				break;
-			default:
-				break;
-			}
-		});
-	},
-	show: function() {
-		game.rootScene.addChild(this);
-	},
-	hide: function() {
-		game.rootScene.removeChild(this);
-	},
-	blast: function(frame) {
-		if(this._mode == 'normal'){
-			this._mode = 'blast';
-			this.scale(this.width/16);
-			this.image = game.assets['effect0.gif'];
-			this.width = 16;
-			this.height = 16;
-			this.frame = 16;
-			this._blastf = 0;
-			this._blast = (1/frame) || (1/10);
-		}
-	},
-	fadeOut: function(frame) {
-		this._mode = 'fadeout';
-		this._fade = (1/frame) || (1/10);
-	},
-	fadeIn: function(frame) {
-		this._mode = 'fadein';
-		this._fade = (1/frame) || (1/10);
-	},
-	intersect: function(target) {
-		var mygapx = (1 - this.scaleX)*this.width;
-		var mygapy = (1 - this.scaleY)*this.height;
-		var tagapx = (1 - target.scaleX)*target.width;
-		var tagapy = (1 - target.scaleY)*target.height;
-		
-		var myright = this.x + this.width - mygapx;
-		var taright = target.x + target.width - mygapy;
-		var mybottom = this.y + this.height - tagapx;
-		var tabottom = target.y + target.height - tagapy;
-		
-		if (this.x + mygapx < taright && myright > target.x + tagapx &&
-			this.y + mygapy < tabottom && mybottom > target.y + tagapy) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 });

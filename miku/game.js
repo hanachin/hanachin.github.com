@@ -21,6 +21,8 @@ KyunSprite = enchant.Class.create(enchant.util.ExSprite, {
 	},
 });
 
+combo = 0;
+
 window.onload = function() {
 	var GAME_WIDTH = 320;
 	var GAME_HEIGHT = 320;
@@ -111,6 +113,7 @@ window.onload = function() {
 				onpu.x += vectorX;
 				onpu.y += vectorY;
 				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
+					combo = 0;
 					game.rootScene.removeChild(onpu);
 				}
 				
@@ -118,6 +121,14 @@ window.onload = function() {
 				otas = otas.filter(function (ota) {
 					if (onpu.intersect(ota)) {
 						scoreLabel.score = scoreLabel.score + 1;
+						
+						if (++combo >= 2) {
+							console.log('combo!');
+							var comboText = new MutableText(ota.x - 6, ota.y - 16);
+							comboText.text = combo + "combo";
+							comboText.fadeOut(24);
+							game.rootScene.addChild(comboText);
+						}
 						
 						del_flag = true;
 						ota.removeEventListener('enterframe', ota.move);
