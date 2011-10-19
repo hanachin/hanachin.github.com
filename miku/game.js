@@ -27,8 +27,10 @@ window.onload = function() {
 	
 	var OTA_INTERVAL = 5;
 	var OTA_MAX = 5;
+	var OTA_SAITEI = 5;
+	var OTA_RAND = 5;
 	var ota_speed_f = function () {
-		return rand(5) + 5;	// 5 ~ 10
+		return rand(OTA_RAND) + OTA_SAITEI;	// 5 ~ 10
 	}
 	
 	var RENSHA_INTERVAL = 5;
