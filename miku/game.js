@@ -59,8 +59,7 @@ window.onload = function() {
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png',
-    		'voice_owari.wav', 'voice_hajime.wav',
-    		'miku_hanpa.png'
+    		'voice_owari.wav', 'voice_hajime.wav'
     );
     game.onload = function() {
     	var bg = new Sprite(320, 320);
@@ -74,13 +73,13 @@ window.onload = function() {
     	timeLabel.time = TIME_LIMIT;
     	game.rootScene.addChild(timeLabel);
     	
-		var miku = new Sprite(42, 56);
+		var miku = new Sprite(36, 53);
 		miku.x = miku_center.x - miku.width / 2
 		miku.y = miku_center.y - miku.height / 2;
-		miku.image = game.assets['miku_hanpa.png'];
+		miku.image = game.assets['miku.png'];
 		miku.frame = 0;
 		miku.addEventListener('enterframe', function (e) {
-			// miku.frame = Math.floor(game.frame / 2) % 3;
+			miku.frame = Math.floor(game.frame / 2) % 10;
 		});
 		
 		game.rootScene.addEventListener('touchstart', function (e) {
@@ -95,7 +94,7 @@ window.onload = function() {
 			}
 			
 			var onpu = new Sprite(16, 15);
-			onpu.x = miku.x + 15;
+			onpu.x = miku.x + 12;
 			onpu.y = miku.y + miku.height / 2;
 			onpu.image = game.assets['onpu.gif'];
 			onpu.frame = game.frame % 3;
