@@ -60,9 +60,9 @@ window.onload = function() {
     		'kyun.wav', 'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
-    		'yanyo.png', 'youchu.png',
     		'bgm.wav', 'voice_owari.wav', 'voice_hajime.wav'
     );
+    
     game.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
