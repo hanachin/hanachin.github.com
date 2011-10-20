@@ -54,7 +54,7 @@ window.onload = function() {
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
     game.preload(
-    		'kyun.mp3', 'font.png', 'back.png',
+    		'kyun.wav', 'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png'
@@ -135,7 +135,7 @@ window.onload = function() {
 						ota.removeEventListener('enterframe', ota.move);
 						ota.frame = 3;
 						ota.fadeOut(12);
-						var kyunSound = game.assets['kyun.mp3'].clone();
+						var kyunSound = game.assets['kyun.wav'].clone();
 						kyunSound.play();
 						
 						var kyun = new KyunSprite(16, 16);
