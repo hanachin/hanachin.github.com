@@ -86,11 +86,15 @@ window.onload = function() {
 			var deg = degFromMiku(e);
 			
 			// miku.rotation = deg;
-			miku.scaleX *= -1;
+			if (e.localX > miku.x) {
+				miku.scaleX = -1;
+			} else {
+				miku.scaleX = 1;
+			}
 			
 			var onpu = new Sprite(16, 15);
-			onpu.x = miku.x + 1;
-			onpu.y = miku.y + 5;
+			onpu.x = miku.x + 15;
+			onpu.y = miku.y + miku.height / 2;
 			onpu.image = game.assets['onpu.gif'];
 			onpu.frame = game.frame % 3;
 			onpu.rotation = deg;
@@ -129,7 +133,7 @@ window.onload = function() {
 							scoreLabel.score = scoreLabel.score + ((125 * rate * combo) / 10000) ;
 							var comboText = new ComboText(ota.x - 6, ota.y - 20);
 							comboText.text = combo + ":;<";
-							comboText.fadeOut(24);
+							comboText.fadeOut(24);							
 							game.rootScene.addChild(comboText);
 						}
 						
