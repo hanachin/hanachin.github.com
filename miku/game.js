@@ -57,7 +57,8 @@ window.onload = function() {
     		'kyun.wav', 'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'effect0.gif',
-    		'yanyo.png', 'youchu.png'
+    		'yanyo.png', 'youchu.png',
+    		'miku_hanpa.png'
     );
     game.onload = function() {
     	var bg = new Sprite(320, 320);
@@ -71,20 +72,21 @@ window.onload = function() {
     	timeLabel.time = TIME_LIMIT;
     	game.rootScene.addChild(timeLabel);
     	
-		var miku = new Sprite(20, 28);
+		var miku = new Sprite(42, 56);
 		miku.x = miku_center.x - miku.width / 2
 		miku.y = miku_center.y - miku.height / 2;
-		miku.image = game.assets['miku.png'];
-		miku.frame = 1;
+		miku.image = game.assets['miku_hanpa.png'];
+		miku.frame = 0;
 		miku.addEventListener('enterframe', function (e) {
-			miku.frame = Math.floor(game.frame / 2) % 3;
+			// miku.frame = Math.floor(game.frame / 2) % 3;
 		});
 		
 		game.rootScene.addEventListener('touchstart', function (e) {
 			var rad = radFromMiku(e);
 			var deg = degFromMiku(e);
 			
-			miku.rotation = deg;
+			// miku.rotation = deg;
+			miku.scaleX *= -1;
 			
 			var onpu = new Sprite(16, 15);
 			onpu.x = miku.x + 1;
@@ -161,7 +163,7 @@ window.onload = function() {
 		
 		game.rootScene.addEventListener('touchmove', function (e) {
 			var deg = degFromMiku(e);
-			miku.rotation = deg;
+			//miku.rotation = deg;
 		});
 		
 		game.rootScene.addChild(miku);
