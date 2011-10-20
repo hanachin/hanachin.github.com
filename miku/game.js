@@ -21,7 +21,7 @@ window.onload = function() {
 	var rate_ota_speed_f = function () {
 		return 7;
 	}
-	var MIKU_UTA = 4;
+	var MIKU_UTA = 5;
 	var RENSHA_INTERVAL = 5;
 	
 	var TIME_LIMIT = 40;
