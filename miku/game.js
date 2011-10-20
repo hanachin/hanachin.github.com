@@ -5,6 +5,7 @@ var rensha_last = 0
 
 combo = 0;
 rate = 100;
+first_flag = true;
 
 window.onload = function() {
 	var GAME_WIDTH = 320;
@@ -58,6 +59,7 @@ window.onload = function() {
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png',
+    		'voice_owari.wav', 'voice_hajime.wav',
     		'miku_hanpa.png'
     );
     game.onload = function() {
@@ -173,8 +175,13 @@ window.onload = function() {
 		game.rootScene.addChild(miku);
 		
 		game.rootScene.addEventListener('enterframe', function (e) {
+			if (first_flag) {
+				game.assets['voice_hajime.wav'].play();
+				first_flag = false;
+			}
 			if (timeLabel.time <= 0) {
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
+				game.assets['voice_owari.wav'].play();
 			}
 			
 			if (game.frame % OTA_INTERVAL == 0) {
