@@ -21,7 +21,7 @@ window.onload = function() {
 	var rate_ota_speed_f = function () {
 		return 7;
 	}
-	
+	var MIKU_UTA = 4;
 	var RENSHA_INTERVAL = 5;
 	
 	var TIME_LIMIT = 40;
@@ -79,7 +79,7 @@ window.onload = function() {
 		miku.image = game.assets['miku.png'];
 		miku.frame = 0;
 		miku.addEventListener('enterframe', function (e) {
-			miku.frame = Math.floor(game.frame / 2) % 10;
+			miku.frame = Math.floor(game.frame / MIKU_UTA) % 10;
 		});
 		
 		game.rootScene.addEventListener('touchstart', function (e) {
