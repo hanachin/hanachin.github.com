@@ -25,7 +25,7 @@ window.onload = function() {
 		return 6;
 	}
 	var MIKU_UTA = 5;
-	var RENSHA_INTERVAL = 5;
+	var rensha_interval = 5;
 	
 	var TIME_LIMIT = 40;
 	
@@ -85,7 +85,7 @@ window.onload = function() {
 			miku.frame = Math.floor(game.frame / MIKU_UTA) % 10;
 		});
 		
-		game.rootScene.addEventListener('touchstart', function (e) {
+		function touchListener(e) {
 			var rad = radFromMiku(e);
 			var deg = degFromMiku(e);
 			
@@ -111,6 +111,7 @@ window.onload = function() {
 				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
 					combo = 0;
 					rate = 100;
+					rensha_interval = 5;
 					game.rootScene.removeChild(onpu);
 				}
 				
@@ -122,6 +123,8 @@ window.onload = function() {
 						combo++;
 
 						if (ota.ota_type == 'rate') {
+							rensha_interval--;
+							if (rensha_interval == 0) rensha_interval++;
 							rate = rate + 25;
 							if (combo >= 2) {
 								var rateText = new RateText(ota.x - 6, ota.y - 40);
@@ -167,16 +170,15 @@ window.onload = function() {
 				}
 			});
 			
-			if (rensha_last + RENSHA_INTERVAL < game.frame) {
+			if (rensha_last + rensha_interval < game.frame) {
 				rensha_last = game.frame;
 				game.rootScene.addChild(onpu);
 			}
-		});
+		}
 		
-		game.rootScene.addEventListener('touchmove', function (e) {
-			var deg = degFromMiku(e);
-			//miku.rotation = deg;
-		});
+		game.rootScene.addEventListener('touchstart', touchListener);
+		
+		game.rootScene.addEventListener('touchmove', touchListener);
 		
 		game.rootScene.addChild(miku);
 		
