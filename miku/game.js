@@ -62,7 +62,7 @@ window.onload = function() {
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png',
-    		'voice_owari.wav', 'voice_hajime.wav'
+    		'bgm.wav', 'voice_owari.wav', 'voice_hajime.wav'
     );
     game.onload = function() {
     	var bg = new Sprite(320, 320);
@@ -183,7 +183,11 @@ window.onload = function() {
 		game.rootScene.addEventListener('enterframe', function (e) {
 			if (first_flag) {
 				game.assets['voice_hajime.wav'].play();
+				game.assets['bgm.wav'].play();
 				first_flag = false;
+			}
+			if (game.assets['bgm.wav'].currentTime > 12) {
+				game.assets['bgm.wav'].play();
 			}
 			if (timeLabel.time <= 0) {
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
