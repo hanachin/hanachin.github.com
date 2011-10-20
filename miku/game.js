@@ -21,6 +21,9 @@ window.onload = function() {
 	var rate_ota_speed_f = function () {
 		return 7;
 	}
+	var time_ota_speed_f = function () {
+		return 6;
+	}
 	var MIKU_UTA = 5;
 	var RENSHA_INTERVAL = 5;
 	
@@ -57,7 +60,7 @@ window.onload = function() {
     game.preload(
     		'kyun.wav', 'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
-    		'ota.png', 'ota2.png', 'effect0.gif',
+    		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
     		'yanyo.png', 'youchu.png',
     		'voice_owari.wav', 'voice_hajime.wav'
     );
@@ -138,6 +141,10 @@ window.onload = function() {
 							game.rootScene.addChild(comboText);
 						}
 						
+						if (ota.ota_type == 'time') {
+							timeLabel.time = (timeLabel.time / game.fps) + 5;
+						}
+						
 						del_flag = true;
 						ota.removeEventListener('enterframe', ota.move);
 						ota.frame = 3;
@@ -155,6 +162,7 @@ window.onload = function() {
 					}
 					return true;
 				});
+				console.log(timeLabel.time);
 				if (del_flag) {
 					game.rootScene.removeChild(onpu);
 				}
@@ -189,9 +197,14 @@ window.onload = function() {
 				ota.x = direction == 1 ? -32 : game.width;
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
 				
-				if (rand(15) == 10) {
-					ota.image = game.assets['ota2.png'];
+				var ota_rand = rand(15);
+				if (ota_rand > 13) {
+					ota.image = game.assets['ota3.png'];
 					var speed_f = rate_ota_speed_f;
+					ota.ota_type = 'time';
+				} else if (ota_rand > 10) {
+					ota.image = game.assets['ota2.png'];
+					var speed_f = time_ota_speed_f;
 					ota.ota_type = 'rate';
 				} else {
 					ota.image = game.assets['ota.png'];
