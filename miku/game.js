@@ -5,7 +5,6 @@ var rensha_last = 0
 
 combo = 0;
 rate = 100;
-first_flag = true;
 
 window.onload = function() {
 	var GAME_WIDTH = 320;
@@ -182,12 +181,14 @@ window.onload = function() {
 		
 		game.rootScene.addChild(miku);
 		
+		var once = function () {
+			game.assets['voice_hajime.wav'].play();
+			game.assets['bgm.wav'].play();
+			game.rootScene.removeEventListener('enterframe', once);
+		}
+		game.rootScene.addEventListener('enterframe', once);
+		
 		game.rootScene.addEventListener('enterframe', function (e) {
-			if (first_flag) {
-				game.assets['voice_hajime.wav'].play();
-				game.assets['bgm.wav'].play();
-				first_flag = false;
-			}
 			if (game.assets['bgm.wav'].currentTime > 12) {
 				game.assets['bgm.wav'].play();
 			}
