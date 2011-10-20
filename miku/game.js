@@ -4,6 +4,7 @@ var otas = [];
 var rensha_last = 0
 
 combo = 0;
+rate = 100;
 
 window.onload = function() {
 	var GAME_WIDTH = 320;
@@ -99,16 +100,31 @@ window.onload = function() {
 				onpu.y += vectorY;
 				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
 					combo = 0;
+					rate = 100;
 					game.rootScene.removeChild(onpu);
 				}
 				
 				var del_flag = false;
 				otas = otas.filter(function (ota) {
 					if (onpu.intersect(ota)) {
-						scoreLabel.score = scoreLabel.score + 1;
+						scoreLabel.score = scoreLabel.score + 1 * (rate / 100);
 						
-						if (++combo >= 2) {
-							scoreLabel.score = scoreLabel.score + 1.25 * combo;
+						combo++;
+
+						if (ota.ota_type == 'rate') {
+							rate = rate + 25;
+							if (combo >= 2) {
+								var rateText = new RateText(ota.x - 6, ota.y - 40);
+							} else {
+								var rateText = new RateText(ota.x - 6, ota.y - 20);
+							}
+							rateText.text = ";" + ("" + (rate / 100)).replace(/\./, ":");
+							rateText.fadeOut(24);
+							game.rootScene.addChild(rateText);
+						}
+						
+						if (combo >= 2) {
+							scoreLabel.score = scoreLabel.score + ((125 * rate * combo) / 10000) ;
 							var comboText = new ComboText(ota.x - 6, ota.y - 20);
 							comboText.text = combo + ":;<";
 							comboText.fadeOut(24);

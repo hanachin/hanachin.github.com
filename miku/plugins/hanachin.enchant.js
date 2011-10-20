@@ -1,4 +1,4 @@
-enchant.hanachin = { assets: ['combo.png'] };
+enchant.hanachin = { assets: ['combo.png', 'rate.png'] };
 
 enchant.hanachin.KyunSprite = enchant.Class.create(enchant.util.ExSprite, {
 	initialize: function(width, height) {
@@ -20,21 +20,16 @@ enchant.hanachin.KyunSprite = enchant.Class.create(enchant.util.ExSprite, {
 
 enchant.hanachin.ComboText = enchant.Class.create(enchant.util.MutableText, {
 	initialize: function(posX, posY, width, height) {
-		enchant.util.ExSprite.call(this, 0, 0);
+		enchant.util.MutableText.call(this, posX, posY, width, height);
 		var game = enchant.Game.instance;
 		var width = (arguments[2] || game.width);
 		var height = (arguments[3] || game.height);
 		this.fontHeight = 18;
 		this.fontWidth = 10;
-		this.fontSize = 10;
 		this.widthItemNum = 13;
 		// font.png ÇÃâ°ÇÃï∂éöêî
 		this.returnLength = width/this.fontWidth;
-		// â¸çsÇì¸ÇÍÇÈï∂éöêî
-		this.image = new Surface(width, height);
-		this.x = posX;
-		this.y = posY;
-		this.text = '';
+		this.fontImage = 'combo.png';
 	},
 	setText: function(txt) {
 		var i, x, y, wNum, charCode, charPos;
@@ -53,29 +48,19 @@ enchant.hanachin.ComboText = enchant.Class.create(enchant.util.MutableText, {
 			x = charPos % this.widthItemNum;
 			y = (charPos / this.widthItemNum)|0;
 			console.log(charPos);
-			console.log([game.assets['combo.png'], 
+			console.log([game.assets[this.fontImage], 
 				x * this.fontWidth, y * this.fontHeight, this.fontWidth, this.fontHeight,
 				(i%this.returnLength)*this.fontWidth, ((i/this.returnLength)|0)*this.fontHeight, this.fontWidth, this.fontHeight]);
-			this.image.draw(game.assets['combo.png'], 
+			this.image.draw(game.assets[this.fontImage], 
 				x * this.fontWidth, y * this.fontHeight, this.fontWidth, this.fontHeight,
 				(i%this.returnLength)*this.fontWidth, ((i/this.returnLength)|0)*this.fontHeight, this.fontWidth, this.fontHeight);
 		}
 	},
-	text: {
-		get: function() {
-			return this._text;
-		},
-		set: function(txt) {
-			this.setText(txt);
-		}
-	},
-	row: {
-		get: function() {
-			return this.returnLength;
-		},
-		set: function(row) {
-			this.returnLength = row;
-			this.text = this.text;
-		}
+});
+
+enchant.hanachin.RateText = enchant.Class.create(enchant.hanachin.ComboText, {
+	initialize: function(posX, posY, width, height) {
+		enchant.hanachin.ComboText.call(this, posX, posY, width, height);
+		this.fontImage = 'rate.png';
 	}
 });
