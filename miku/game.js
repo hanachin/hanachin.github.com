@@ -194,6 +194,7 @@ window.onload = function() {
 			if (timeLabel.time <= 0) {
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
 				game.assets['voice_owari.wav'].play();
+				game.assets['bgm.wav'].stop();
 			}
 			
 			if (game.frame % OTA_INTERVAL == 0) {
