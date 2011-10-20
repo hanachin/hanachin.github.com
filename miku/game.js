@@ -162,7 +162,6 @@ window.onload = function() {
 					}
 					return true;
 				});
-				console.log(timeLabel.time);
 				if (del_flag) {
 					game.rootScene.removeChild(onpu);
 				}
@@ -221,7 +220,6 @@ window.onload = function() {
 						var index = otas.indexOf(ota);
 						if (index != -1) {
 							otas.splice(index, 1);
-							console.log(otas.length);
 						}
 					}
 				};

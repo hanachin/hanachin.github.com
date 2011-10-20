@@ -47,10 +47,6 @@ enchant.hanachin.ComboText = enchant.Class.create(enchant.util.MutableText, {
 			}
 			x = charPos % this.widthItemNum;
 			y = (charPos / this.widthItemNum)|0;
-			console.log(charPos);
-			console.log([game.assets[this.fontImage], 
-				x * this.fontWidth, y * this.fontHeight, this.fontWidth, this.fontHeight,
-				(i%this.returnLength)*this.fontWidth, ((i/this.returnLength)|0)*this.fontHeight, this.fontWidth, this.fontHeight]);
 			this.image.draw(game.assets[this.fontImage], 
 				x * this.fontWidth, y * this.fontHeight, this.fontWidth, this.fontHeight,
 				(i%this.returnLength)*this.fontWidth, ((i/this.returnLength)|0)*this.fontHeight, this.fontWidth, this.fontHeight);
