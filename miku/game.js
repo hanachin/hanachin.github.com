@@ -211,7 +211,8 @@ window.onload = function() {
 		game.rootScene.addEventListener('enterframe', function (e) {
 			if (timeLabel.time <= 0) {
 				timeLabel.time = 0;
-				game.end(Math.floor(scoreLabel.score), scoreLabel.score + 'キュン集めたよ☆');
+				var kyun = Math.floor(scoreLabel.score);
+				game.end(kyun, kyun + 'キュン集めたよ☆');
 				game.assets['voice_owari.wav'].play();
 				game.assets['bgm.wav'].stop();
 			}
