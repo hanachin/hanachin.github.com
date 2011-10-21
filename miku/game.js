@@ -217,7 +217,7 @@ window.onload = function() {
 				ota.scaleX *= direction;
 				
 				var speed = direction * ota.speed;
-				var move = function (e) {
+				ota.move = function (e) {
 					ota.x = ota.x + speed;
 					ota.frame = Math.floor(game.frame / 3) % 3;
 					if (ota.x < -32 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
@@ -228,7 +228,7 @@ window.onload = function() {
 						}
 					}
 				}
-				ota.addEventListener('enterframe', move);
+				ota.addEventListener('enterframe', ota.move);
 				game.rootScene.addChild(ota);
 				otas.push(ota);
 			}
