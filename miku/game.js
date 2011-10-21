@@ -64,7 +64,7 @@ window.onload = function() {
     	bg.image = game.assets['back.png'];
     	game.rootScene.addChild(bg);
     	
-    	var score_kyun = new Sprite(32, 16);
+    	var score_kyun = new Sprite(30, 16);
     	score_kyun.image = game.assets['score.png'];
     	score_kyun.x = -32;
     	game.rootScene.addChild(score_kyun);
