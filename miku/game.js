@@ -200,24 +200,16 @@ window.onload = function() {
 		}
 		game.rootScene.addEventListener('enterframe', once);
 		
-		var duration = game.assets['bgm.wav'].duration - 0.1;
-		function soundBgm() {
-			if (game.assets['bgm.wav'].currentTime >= duration) {
-				game.assets['bgm.wav'].play();
-			}
-		}
-		
-		function timeEnd() {
+		game.rootScene.addEventListener('enterframe', function (e) {
 			if (timeLabel.time <= 0) {
 				timeLabel.time = 0;
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン集めたよ☆');
 				game.assets['voice_owari.wav'].play();
 				game.assets['bgm.wav'].stop();
 			}
-		}
-		
-		game.rootScene.addEventListener('enterframe', function (e) {
-			timeEnd();
+			if (game.assets['bgm.wav'].currentTime >= 12) {
+				game.assets['bgm.wav'].play();
+			}
 			soundBgm();
 			if (game.frame % OTA_INTERVAL == 0 && otas.length <= OTA_MAX) {
 				var ota = new ExSprite(28, 39);
