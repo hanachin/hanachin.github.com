@@ -32,7 +32,8 @@ window.onload = function() {
 	};
 	
 	function radFromMiku(e) {
-		return Math.atan2(miku_center.y - e.y, e.x - miku_center.x);
+		// return Math.atan2(miku_center.y - e.y, e.x - miku_center.x);
+		return Math.atan2(180 - e.y, e.x - 160);
 	}
 	
 	function degFromMiku(e) {
