@@ -66,7 +66,8 @@ window.onload = function() {
     	
     	var score_kyun = new Sprite(30, 16);
     	score_kyun.image = game.assets['score.png'];
-    	score_kyun.x = -32;
+    	score_kyun.x = 112;
+    	score_kyun.y = -3;
     	game.rootScene.addChild(score_kyun);
     	
     	var kaito = new Sprite(15, 45);
@@ -74,7 +75,14 @@ window.onload = function() {
     	kaito.y = 20;
     	kaito.image = game.assets['kaito_sun.png'];
     	kaito.addEventListener('enterframe', function () {
-    		kaito.frame = Math.floor(game.frame / 7) % 11;
+    		kaito.frame = Math.floor(game.frame / 3) % 10;
+    		if (kaito.frame == 0) {
+    			if (rand(10) == 0) {
+    				kaito.y = 20;
+    			} else {
+    				kaito.y = -45;
+    			}
+    		}
     	});
     	game.rootScene.addChild(kaito);
     	
@@ -176,7 +184,7 @@ window.onload = function() {
 		        		kyun.blast(5);
 		        		game.rootScene.addChild(kyun);
 		        		
-		        		score_kyun.x = scoreLabel.text.length * 16;
+		        		score_kyun.x = (scoreLabel.text.length) * 16;
 		        		
 						return false;
 					}
