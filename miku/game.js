@@ -79,7 +79,6 @@ window.onload = function() {
 		miku.x = miku_center.x - miku.width / 2
 		miku.y = miku_center.y - miku.height / 2;
 		miku.image = game.assets['miku.png'];
-		miku.frame = 0;
 		miku.addEventListener('enterframe', function (e) {
 			miku.frame = Math.floor(game.frame / MIKU_UTA) % 10;
 		});
@@ -88,12 +87,7 @@ window.onload = function() {
 			var rad = radFromMiku(e);
 			var deg = degFromMiku(e);
 			
-			// miku.rotation = deg;
-			if (e.localX > miku.x) {
-				miku.scaleX = -1;
-			} else {
-				miku.scaleX = 1;
-			}
+			miku.scaleX = e.localX < miku.x ? 1 : -1;
 			
 			var onpu = new Sprite(16, 15);
 			onpu.x = miku.x + 12;
@@ -101,10 +95,10 @@ window.onload = function() {
 			onpu.image = game.assets['onpu.gif'];
 			onpu.frame = game.frame % 3;
 			onpu.rotation = deg;
+			var speed = 10;
+			var vectorX = Math.cos(rad) * speed;
+			var vectorY = -Math.sin(rad) * speed;
 			onpu.addEventListener('enterframe', function (e) {
-				var speed = 10;
-				var vectorX = Math.cos(rad) * speed;
-				var vectorY = -Math.sin(rad) * speed;
 				onpu.x += vectorX;
 				onpu.y += vectorY;
 				if (onpu.x < -32 || game.width < onpu.x || onpu.y < -32 || game.height < onpu.y) {
@@ -176,22 +170,26 @@ window.onload = function() {
 		}
 		
 		game.rootScene.addEventListener('touchstart', touchListener);
-		
 		game.rootScene.addEventListener('touchmove', touchListener);
 		
 		game.rootScene.addChild(miku);
 		
-		var once = function () {
+		function soundOnce() {
 			game.assets['voice_hajime.wav'].play();
 			game.assets['bgm.wav'].play();
-			game.rootScene.removeEventListener('enterframe', once);
+			game.rootScene.removeEventListener('enterframe', soundOnce);
 		}
-		game.rootScene.addEventListener('enterframe', once);
+		game.rootScene.addEventListener('enterframe', soundOnce);
 		
-		game.rootScene.addEventListener('enterframe', function (e) {
-			if (game.assets['bgm.wav'].currentTime > 12) {
+		var duration = game.assets['bgm.wav'].duration;
+		function soundBgm() {
+			if (game.assets['bgm.wav'].currentTime == duration) {
 				game.assets['bgm.wav'].play();
 			}
+		}
+		game.rootScene.addEventListener('enterframe', soundBgm);
+		
+		game.rootScene.addEventListener('enterframe', function (e) {
 			if (timeLabel.time <= 0) {
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
 				game.assets['voice_owari.wav'].play();
