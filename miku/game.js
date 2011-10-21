@@ -80,12 +80,17 @@ window.onload = function() {
 			
 			miku.scaleX = e.localX < miku.x ? 1 : -1;
 			
+			if (rensha_last + rensha_interval > game.frame) {
+				return;
+			}
+			
 			var onpu = new Sprite(16, 15);
 			onpu.x = miku.x + 12;
 			onpu.y = miku.y + miku.height / 2;
 			onpu.image = game.assets['onpu.gif'];
 			onpu.frame = game.frame % 3;
 			onpu.rotation = deg;
+			
 			var speed = 10;
 			var vectorX = Math.cos(rad) * speed;
 			var vectorY = -Math.sin(rad) * speed;
@@ -142,7 +147,7 @@ window.onload = function() {
 						var kyun = new KyunSprite(16, 16);
 		        		kyun.x = ota.x-3;
 		        		kyun.y = ota.y-10;
-		        		kyun.blast(6);
+		        		kyun.blast(5);
 		        		game.rootScene.addChild(kyun);
 		        		
 						return false;
@@ -153,11 +158,8 @@ window.onload = function() {
 					game.rootScene.removeChild(onpu);
 				}
 			});
-			
-			if (rensha_last + rensha_interval < game.frame) {
-				rensha_last = game.frame;
-				game.rootScene.addChild(onpu);
-			}
+			rensha_last = game.frame;
+			game.rootScene.addChild(onpu);
 		}
 		
 		game.rootScene.addEventListener('touchstart', touchListener);
@@ -183,7 +185,8 @@ window.onload = function() {
 		
 		game.rootScene.addEventListener('enterframe', function (e) {
 			if (timeLabel.time <= 0) {
-				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
+				timeLabel.time = 0;
+				game.end(scoreLabel.score, scoreLabel.score + 'キュン集めたよ');
 				game.assets['voice_owari.wav'].play();
 				game.assets['bgm.wav'].stop();
 			}
@@ -196,6 +199,7 @@ window.onload = function() {
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
 				
 				var ota_rand = rand(15);
+				
 				if (ota_rand > 13) {
 					ota.image = game.assets['ota3.png'];
 					ota.speed = 6;
@@ -209,6 +213,7 @@ window.onload = function() {
 					ota.speed = rand(OTA_RAND) + OTA_SAITEI;
 					ota.ota_type = 'normal';
 				}
+				
 				ota.scaleX *= direction;
 				
 				var speed = direction * ota.speed;
