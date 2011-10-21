@@ -14,19 +14,10 @@ window.onload = function() {
 	var OTA_MAX = 5;
 	var OTA_SAITEI = 1;
 	var OTA_RAND = 5;
-	var ota_speed_f = function () {
-		return rand(OTA_RAND) + OTA_SAITEI;	// 1 ~ 10
-	}
-	var rate_ota_speed_f = function () {
-		return 7;
-	}
-	var time_ota_speed_f = function () {
-		return 6;
-	}
 	var MIKU_UTA = 5;
 	var rensha_interval = 5;
 	
-	var TIME_LIMIT = 100;
+	var TIME_LIMIT = 39;
 	
 	// for debug
 	var url = location.href;
@@ -189,6 +180,7 @@ window.onload = function() {
 		}
 		game.rootScene.addEventListener('enterframe', soundBgm);
 		
+		
 		game.rootScene.addEventListener('enterframe', function (e) {
 			if (timeLabel.time <= 0) {
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン♡');
@@ -196,8 +188,9 @@ window.onload = function() {
 				game.assets['bgm.wav'].stop();
 			}
 			
-			if (game.frame % OTA_INTERVAL == 0) {
+			if (game.frame % OTA_INTERVAL == 0 && otas.length <= OTA_MAX) {
 				var ota = new ExSprite(28, 39);
+				
 				var direction = rand(2) ? 1 : -1;
 				ota.x = direction == 1 ? -32 : game.width;
 				ota.y = rand(2) ? rand(96) + 32 : rand(96) + 192;
@@ -205,21 +198,22 @@ window.onload = function() {
 				var ota_rand = rand(15);
 				if (ota_rand > 13) {
 					ota.image = game.assets['ota3.png'];
-					var speed_f = rate_ota_speed_f;
+					ota.speed = 6;
 					ota.ota_type = 'time';
 				} else if (ota_rand > 10) {
 					ota.image = game.assets['ota2.png'];
-					var speed_f = time_ota_speed_f;
+					ota.speed = 7;
 					ota.ota_type = 'rate';
 				} else {
 					ota.image = game.assets['ota.png'];
-					var speed_f = ota_speed_f;
+					ota.speed = rand(OTA_RAND) + OTA_SAITEI;
 					ota.ota_type = 'normal';
 				}
-				
 				ota.scaleX *= direction;
-				ota.move = function (e) {
-					ota.x = ota.x + direction * speed_f();
+				
+				var speed = direction * ota.speed;
+				var move = function (e) {
+					ota.x = ota.x + speed;
 					ota.frame = Math.floor(game.frame / 3) % 3;
 					if (ota.x < -32 || game.width < ota.x || ota.y < 0 || game.height < ota.y) {
 						game.rootScene.removeChild(ota);
@@ -228,13 +222,10 @@ window.onload = function() {
 							otas.splice(index, 1);
 						}
 					}
-				};
-				ota.addEventListener('enterframe', ota.move);
-				
-				if (otas.length <= OTA_MAX) {
-					game.rootScene.addChild(ota);
-					otas.push(ota);
 				}
+				ota.addEventListener('enterframe', move);
+				game.rootScene.addChild(ota);
+				otas.push(ota);
 			}
 		});
     };
