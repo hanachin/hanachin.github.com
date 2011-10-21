@@ -75,6 +75,7 @@ window.onload = function() {
 		miku.addEventListener('enterframe', function (e) {
 			miku.frame = Math.floor(game.frame / MIKU_UTA) % 10;
 		});
+		game.rootScene.addChild(miku);
 		
 		function touchListener(e) {
 			var rad = radFromMiku(e);
@@ -104,6 +105,7 @@ window.onload = function() {
 					rate = 100;
 					rensha_interval = 5;
 					game.rootScene.removeChild(onpu);
+					return;
 				}
 				
 				var del_flag = false;
@@ -125,6 +127,8 @@ window.onload = function() {
 							rateText.text = ";" + ("" + (rate / 100)).replace(/\./, ":");
 							rateText.fadeOut(24);
 							game.rootScene.addChild(rateText);
+						} else if (ota.ota_type == 'time') {
+							timeLabel.time = (timeLabel.time / game.fps) + 5;
 						}
 						
 						if (combo >= 2) {
@@ -133,10 +137,6 @@ window.onload = function() {
 							comboText.text = combo + ":;<";
 							comboText.fadeOut(24);							
 							game.rootScene.addChild(comboText);
-						}
-						
-						if (ota.ota_type == 'time') {
-							timeLabel.time = (timeLabel.time / game.fps) + 5;
 						}
 						
 						del_flag = true;
@@ -162,11 +162,7 @@ window.onload = function() {
 			rensha_last = game.frame;
 			game.rootScene.addChild(onpu);
 		}
-		
-		game.rootScene.addEventListener('touchstart', touchListener);
 		game.rootScene.addEventListener('touchmove', touchListener);
-		
-		game.rootScene.addChild(miku);
 		
 		function soundOnce() {
 			game.assets['voice_hajime.wav'].play();
@@ -175,23 +171,25 @@ window.onload = function() {
 		}
 		game.rootScene.addEventListener('enterframe', soundOnce);
 		
-		var duration = game.assets['bgm.wav'].duration;
+		var duration = game.assets['bgm.wav'].duration - 0.1;
 		function soundBgm() {
-			if (game.assets['bgm.wav'].currentTime == duration) {
+			if (game.assets['bgm.wav'].currentTime >= duration) {
 				game.assets['bgm.wav'].play();
 			}
 		}
-		game.rootScene.addEventListener('enterframe', soundBgm);
 		
-		
-		game.rootScene.addEventListener('enterframe', function (e) {
+		function timeEnd() {
 			if (timeLabel.time <= 0) {
 				timeLabel.time = 0;
 				game.end(scoreLabel.score, scoreLabel.score + 'キュン集めたよ');
 				game.assets['voice_owari.wav'].play();
 				game.assets['bgm.wav'].stop();
 			}
-			
+		}
+		
+		game.rootScene.addEventListener('enterframe', function (e) {
+			timeEnd();
+			soundBgm();
 			if (game.frame % OTA_INTERVAL == 0 && otas.length <= OTA_MAX) {
 				var ota = new ExSprite(28, 39);
 				
