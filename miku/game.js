@@ -49,7 +49,7 @@ window.onload = function() {
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
     game.preload(
-    		'font.png', 'back.png', 'title.png', 'kaito_sun.png',
+    		'font.png', 'back.png', 'title.png', 'kaito_sun.png', 'score.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
     		'kyun.wav', 'sec_up.wav', 'rate_up.wav',
@@ -63,6 +63,11 @@ window.onload = function() {
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
     	game.rootScene.addChild(bg);
+    	
+    	var score_kyun = new Sprite(32, 16);
+    	score_kyun.image = game.assets['score.png'];
+    	score_kyun.x = -32;
+    	game.rootScene.addChild(score_kyun);
     	
     	var kaito = new Sprite(15, 45);
     	kaito.x = 206;
@@ -170,6 +175,8 @@ window.onload = function() {
 		        		kyun.y = ota.y-10;
 		        		kyun.blast(5);
 		        		game.rootScene.addChild(kyun);
+		        		
+		        		score_kyun.x = scoreLabel.text.length * 16;
 		        		
 						return false;
 					}
