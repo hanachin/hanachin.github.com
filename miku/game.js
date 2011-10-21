@@ -48,9 +48,10 @@ window.onload = function() {
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
     game.preload(
-    		'kyun.wav', 'font.png', 'back.png',
+    		'font.png', 'back.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
+    		'kyun.wav', 'sec_up.wav', 'rate_up.wav',
     		'bgm.wav', 'voice_owari.wav', 'voice_hajime.wav'
     );
     
@@ -141,8 +142,7 @@ window.onload = function() {
 						ota.removeEventListener('enterframe', ota.move);
 						ota.frame = 3;
 						ota.fadeOut(12);
-						var kyunSound = game.assets['kyun.wav'].clone();
-						kyunSound.play();
+						ota.sound.play();
 						
 						var kyun = new KyunSprite(16, 16);
 		        		kyun.x = ota.x-3;
@@ -201,17 +201,20 @@ window.onload = function() {
 				var ota_rand = rand(15);
 				
 				if (ota_rand > 13) {
-					ota.image = game.assets['ota3.png'];
-					ota.speed = 6;
 					ota.ota_type = 'time';
+					ota.speed = 6;
+					ota.image = game.assets['ota3.png'];
+					ota.sound = game.assets['sec_up.wav'].clone();
 				} else if (ota_rand > 10) {
-					ota.image = game.assets['ota2.png'];
-					ota.speed = 7;
 					ota.ota_type = 'rate';
+					ota.speed = 7;
+					ota.image = game.assets['ota2.png'];
+					ota.sound = game.assets['rate_up.wav'].clone();
 				} else {
-					ota.image = game.assets['ota.png'];
-					ota.speed = rand(OTA_RAND) + OTA_SAITEI;
 					ota.ota_type = 'normal';
+					ota.speed = rand(OTA_RAND) + OTA_SAITEI;
+					ota.image = game.assets['ota.png'];
+					ota.sound = game.assets['kyun.wav'].clone();
 				}
 				
 				ota.scaleX *= direction;
