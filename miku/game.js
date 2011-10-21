@@ -143,7 +143,7 @@ window.onload = function() {
 						ota.removeEventListener('enterframe', ota.move);
 						ota.frame = 3;
 						ota.fadeOut(12);
-						ota.sound.play();
+						ota.sound.clone().play();
 						
 						var kyun = new KyunSprite(16, 16);
 		        		kyun.x = ota.x-3;
@@ -162,6 +162,7 @@ window.onload = function() {
 			rensha_last = game.frame;
 			game.rootScene.addChild(onpu);
 		}
+		game.rootScene.addEventListener('touchstart', touchListener);
 		game.rootScene.addEventListener('touchmove', touchListener);
 		
 		function soundOnce() {
@@ -203,17 +204,17 @@ window.onload = function() {
 					ota.ota_type = 'time';
 					ota.speed = 6;
 					ota.image = game.assets['ota3.png'];
-					ota.sound = game.assets['sec_up.wav'].clone();
+					ota.sound = game.assets['sec_up.wav'];
 				} else if (ota_rand > 10) {
 					ota.ota_type = 'rate';
 					ota.speed = 7;
 					ota.image = game.assets['ota2.png'];
-					ota.sound = game.assets['rate_up.wav'].clone();
+					ota.sound = game.assets['rate_up.wav'];
 				} else {
 					ota.ota_type = 'normal';
 					ota.speed = rand(OTA_RAND) + OTA_SAITEI;
 					ota.image = game.assets['ota.png'];
-					ota.sound = game.assets['kyun.wav'].clone();
+					ota.sound = game.assets['kyun.wav'];
 				}
 				
 				ota.scaleX *= direction;
