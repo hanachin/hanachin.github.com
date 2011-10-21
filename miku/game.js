@@ -210,7 +210,6 @@ window.onload = function() {
 			if (game.assets['bgm.wav'].currentTime >= 12) {
 				game.assets['bgm.wav'].play();
 			}
-			soundBgm();
 			if (game.frame % OTA_INTERVAL == 0 && otas.length <= OTA_MAX) {
 				var ota = new ExSprite(28, 39);
 				
