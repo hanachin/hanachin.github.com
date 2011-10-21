@@ -19,13 +19,6 @@ window.onload = function() {
 	
 	var TIME_LIMIT = 39;
 	
-	// for debug
-	var url = location.href;
-	if (url.indexOf('?') != -1) {
-		var param = url.substr(url.indexOf('?')+1).replace(/&/g, ';');
-		eval(param);
-	}
-	
 	var miku_center = {
 		x:GAME_WIDTH / 2,
 		y: 180,
