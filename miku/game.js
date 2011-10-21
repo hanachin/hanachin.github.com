@@ -203,7 +203,7 @@ window.onload = function() {
 		function timeEnd() {
 			if (timeLabel.time <= 0) {
 				timeLabel.time = 0;
-				game.end(scoreLabel.score, scoreLabel.score + 'キュン集めたよ');
+				game.end(scoreLabel.score, scoreLabel.score + 'キュン集めたよ☆');
 				game.assets['voice_owari.wav'].play();
 				game.assets['bgm.wav'].stop();
 			}
