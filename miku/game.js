@@ -49,7 +49,7 @@ window.onload = function() {
     game = new Game(GAME_WIDTH, GAME_HEIGHT);
     game.fps = 24;
     game.preload(
-    		'font.png', 'back.png',
+    		'font.png', 'back.png', 'title.png', 'kaito_sun.png',
     		'miku.png', 'onpu.gif',
     		'ota.png', 'ota2.png', 'ota3.png', 'effect0.gif',
     		'kyun.wav', 'sec_up.wav', 'rate_up.wav',
@@ -57,9 +57,21 @@ window.onload = function() {
     );
     
     game.onload = function() {
+		var title = new ExSprite(320, 320);
+		title.image = game.assets['title.png'];
+		
     	var bg = new Sprite(320, 320);
     	bg.image = game.assets['back.png'];
     	game.rootScene.addChild(bg);
+    	
+    	var kaito = new Sprite(15, 45);
+    	kaito.x = 206;
+    	kaito.y = 20;
+    	kaito.image = game.assets['kaito_sun.png'];
+    	kaito.addEventListener('enterframe', function () {
+    		kaito.frame = Math.floor(game.frame / 7) % 11;
+    	});
+    	game.rootScene.addChild(kaito);
     	
     	var scoreLabel = new ScoreLabel(0, 0);
     	game.rootScene.addChild(scoreLabel);
@@ -129,6 +141,14 @@ window.onload = function() {
 							game.rootScene.addChild(rateText);
 						} else if (ota.ota_type == 'time') {
 							timeLabel.time = (timeLabel.time / game.fps) + 5;
+							if (combo >= 2) {
+								var secText = new SecText(ota.x - 6, ota.y - 40);
+							} else {
+								var secText = new SecText(ota.x - 6, ota.y - 20);
+							}
+							secText.text = ";5<";
+							secText.fadeOut(24);
+							game.rootScene.addChild(secText);
 						}
 						
 						if (combo >= 2) {
@@ -165,12 +185,13 @@ window.onload = function() {
 		game.rootScene.addEventListener('touchstart', touchListener);
 		game.rootScene.addEventListener('touchmove', touchListener);
 		
-		function soundOnce() {
+		function once() {
 			game.assets['voice_hajime.wav'].play();
 			game.assets['bgm.wav'].play();
-			game.rootScene.removeEventListener('enterframe', soundOnce);
+			game.rootScene.removeEventListener('enterframe', once);
+			title.fadeOut(8);
 		}
-		game.rootScene.addEventListener('enterframe', soundOnce);
+		game.rootScene.addEventListener('enterframe', once);
 		
 		var duration = game.assets['bgm.wav'].duration - 0.1;
 		function soundBgm() {
@@ -236,6 +257,8 @@ window.onload = function() {
 				otas.push(ota);
 			}
 		});
+
+		game.rootScene.addChild(title);
     };
     game.start();
 };

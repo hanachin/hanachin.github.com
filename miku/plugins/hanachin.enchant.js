@@ -1,4 +1,4 @@
-enchant.hanachin = { assets: ['combo.png', 'rate.png'] };
+enchant.hanachin = { assets: ['combo.png', 'rate.png', 'sec.png'] };
 
 enchant.hanachin.KyunSprite = enchant.Class.create(enchant.util.ExSprite, {
 	initialize: function(width, height) {
@@ -27,7 +27,6 @@ enchant.hanachin.ComboText = enchant.Class.create(enchant.util.MutableText, {
 		this.fontHeight = 18;
 		this.fontWidth = 10;
 		this.widthItemNum = 13;
-		// font.png ÇÃâ°ÇÃï∂éöêî
 		this.returnLength = width/this.fontWidth;
 		this.fontImage = 'combo.png';
 	},
@@ -58,5 +57,11 @@ enchant.hanachin.RateText = enchant.Class.create(enchant.hanachin.ComboText, {
 	initialize: function(posX, posY, width, height) {
 		enchant.hanachin.ComboText.call(this, posX, posY, width, height);
 		this.fontImage = 'rate.png';
+	}
+});
+enchant.hanachin.SecText = enchant.Class.create(enchant.hanachin.ComboText, {
+	initialize: function(posX, posY, width, height) {
+		enchant.hanachin.ComboText.call(this, posX, posY, width, height);
+		this.fontImage = 'sec.png';
 	}
 });
