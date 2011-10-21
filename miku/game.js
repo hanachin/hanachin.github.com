@@ -26,7 +26,7 @@ window.onload = function() {
 	var MIKU_UTA = 5;
 	var rensha_interval = 5;
 	
-	var TIME_LIMIT = 40;
+	var TIME_LIMIT = 100;
 	
 	// for debug
 	var url = location.href;
